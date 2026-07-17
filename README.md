@@ -154,20 +154,6 @@ PolyChordLite includes compiled Fortran/C components and is easiest to install i
 
 Before running the PolyChord section of the notebook, activate the appropriate WSL/Ubuntu environment with `pypolychord` installed.
 
-## Repository Contents
-
-```text
-.
-|-- bo_selfies_vae.ipynb
-|-- bo_selfies_vae_polychord.ipynb
-|-- bo_selfies_vae_polychord copy.ipynb
-|-- qm9.csv
-|-- models/
-|   `-- selfies_vae.pt
-`-- chains/
-    `-- polychord_bo/
-```
-
 ## Scope and Limitations
 
 This repository is for practice and learning purposes.
