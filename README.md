@@ -76,10 +76,18 @@ Instead of using a standard BoTorch acquisition optimizer, this notebook uses Po
 
 PolyChord samples from a 32-dimensional latent-space search region. A prior function maps PolyChord's unit hypercube into the observed bounds of the VAE latent space.
 
-The GP posterior is used to compute an acquisition score:
+The GP posterior is used to compute a reference-aware acquisition score. The reference is the best target value in the complete current dataset: the highest observed value for maximization or the lowest for minimization.
 
 - UCB: `mean + sqrt(beta) * std`, used for maximization;
 - LCB: `mean - sqrt(beta) * std`, used for minimization.
+
+The confidence-bound improvement is `UCB - reference` for maximization and `reference - LCB` for minimization. The GP also estimates the probability that a candidate improves on the reference by at least `MINIMUM_IMPROVEMENT`. These are combined as:
+
+```text
+score = confidence-bound improvement + PI_WEIGHT * log(probability of improvement)
+```
+
+`MINIMUM_IMPROVEMENT` is expressed in the original target units, while `PI_WEIGHT` controls how strongly candidates with a low probability of improvement are penalized. PolyChord uses this combined score as its log-likelihood, so it progressively explores latent-space regions with higher reference-aware acquisition scores. The highest-scoring samples are retained for molecular decoding.
 
 For the current notebook configuration:
 
@@ -87,6 +95,8 @@ For the current notebook configuration:
 - `ACQUISITION_KIND = "auto"`;
 - `auto` selects LCB for minimization;
 - `BETA = 2.0`;
+- `MINIMUM_IMPROVEMENT = 0.0`;
+- `PI_WEIGHT = 1.0`;
 - the top 20 latent candidates are retained before decoding.
 
 PolyChord writes sampling outputs to `chains/polychord_bo/`.
@@ -144,6 +154,19 @@ PolyChordLite includes compiled Fortran/C components and is easiest to install i
 
 Before running the PolyChord section of the notebook, activate the appropriate WSL/Ubuntu environment with `pypolychord` installed.
 
+## Repository Contents
+
+```text
+.
+|-- bo_selfies_vae.ipynb
+|-- bo_selfies_vae_polychord.ipynb
+|-- bo_selfies_vae_polychord copy.ipynb
+|-- qm9.csv
+|-- models/
+|   `-- selfies_vae.pt
+`-- chains/
+    `-- polychord_bo/
+```
 
 ## Scope and Limitations
 
