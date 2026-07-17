@@ -139,11 +139,11 @@ The notebook successfully demonstrates the full optimization, decoding, and vali
 Example generated outputs from the notebook include:
 
 ```text
-CCC=1C=C(NN=1)N(N)OO[NH2+1]
-C(C)CCCCCC1CCO1
-N=COC=1COOCC=1
-CC(=O)C=C1C2=C(C)C21
-C=C[NH1][N-1]C(N)(N=N)N(F)F
+C#CCN=C1[NH1]C(=O)O1
+COOC1CC1C(C)=O
+C1CCC=C=CC([NH1])[NH1]1
+N1CC1(CCCC)CCC#N
+C=C=NOC(=O)CC=O
 ```
 
 These outputs should be interpreted as practice outputs from an unconstrained optimization workflow. They are formally valid according to the implemented RDKit check, but they are not guaranteed to be chemically feasible, stable, synthesizable, or useful.
